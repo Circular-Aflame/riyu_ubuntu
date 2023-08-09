@@ -918,3 +918,27 @@ git push -u origin main
 git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
 #1691560139
 git push -u origin main
+#1691560227
+lsof -i :7890
+#1691560238
+kill -9 799472
+#1691560241
+sudo apt-get update
+#1691560286
+find jdk
+#1691560297
+java -version
+#1691560359
+update-alternatives --display name
+#1691560388
+git commit -m "ignore vosk"
+#1691560393
+sudo update-alternatives --display java
+#1691560397
+cd ubuntu
+#1691560399
+git commit -m "ignore vosk"
+#1691560423
+git push -u origin main
+#1691560543
+git rm -r --cached .
