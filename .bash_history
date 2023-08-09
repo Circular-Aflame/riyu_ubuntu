@@ -914,3 +914,7 @@ java
 git commit -m "ignore vosk"
 #1691560016
 git push -u origin main
+#1691560136
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691560139
+git push -u origin main
