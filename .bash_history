@@ -854,3 +854,41 @@ git push -u origin main
 git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
 #1691556940
 git push -u origin main
+#1691557055
+git config --global user.email "395004472@qq.com"
+#1691557090
+git config --global user.name "Circular-Aflame"
+#1691557093
+git push -u origin main
+#1691557103
+git config --global user.name "Circular-Aflame"
+#1691557112
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691557142
+git init
+#1691557148
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691557170
+git remote rm origin
+#1691557173
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691557177
+git push -u origin main
+#1691557495
+setsid ~/clash/clash-linux-amd64-v1.10.6 -d ~/clash
+#1691557513
+export https_proxy=http://127.0.0.1:7890
+#1691557566
+git init
+#1691557590
+git commit -m "first commit"
+#1691557605
+git branch -M main
+#1691557614
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691557639
+git remote rm origin
+#1691557640
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691557648
+git push -u origin main
