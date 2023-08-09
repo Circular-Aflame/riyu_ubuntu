@@ -834,3 +834,23 @@ ls -a
 ls -s
 #1691556670
 cd ubuntu
+#1691556766
+git remote add origin git@github.com:Circular-Aflame/riyu_ubuntu.git
+#1691556772
+cd ubuntu
+#1691556774
+git remote add origin git@github.com:Circular-Aflame/riyu_ubuntu.git
+#1691556788
+git push -u origin main
+#1691556802
+git commit -m "first commit"
+#1691556809
+git branch -M main
+#1691556815
+git remote add origin git@github.com:Circular-Aflame/riyu_ubuntu.git
+#1691556822
+git push -u origin main
+#1691556920
+git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
+#1691556940
+git push -u origin main
