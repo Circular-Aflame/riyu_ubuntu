@@ -892,3 +892,25 @@ git remote rm origin
 git remote add origin https://github.com/Circular-Aflame/riyu_ubuntu.git
 #1691557648
 git push -u origin main
+#1691559701
+lsof -i :7890
+#1691559710
+kill -9 716228
+#1691559717
+setsid ~/clash/clash-linux-amd64-v1.10.6 -d ~/clash
+#1691559725
+export https_proxy=http://127.0.0.1:7890
+#1691559810
+git push -u origin main
+#1691559870
+cd ..
+#1691559872
+ls
+#1691559874
+cd lighthouse/
+#1691559879
+java
+#1691559893
+git commit -m "ignore vosk"
+#1691560016
+git push -u origin main
