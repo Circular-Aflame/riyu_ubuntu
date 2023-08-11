@@ -75,6 +75,7 @@ public class FileUploadController {
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
         while ((line = reader.readLine()) != null) {
+            logger.debug("now is the command out");
             logger.debug(line);
         }
 
