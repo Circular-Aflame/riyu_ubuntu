@@ -1,8 +1,6 @@
 package com.example.accessingdatamysql;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +59,7 @@ public class FileUploadController {
         }
         File dest = new File(uploadFilePath + '/' + files[0].getOriginalFilename());
 
-        String command = "python";
+        String command = "/home/ubuntu/anaconda3/bin/python3";
         String scriptPath = "/home/ubuntu/srtmain/vosk/vosk-api/python/example/test_ffmpeg.py";
         String audioFilePath = dest.toString();
 
@@ -83,15 +82,32 @@ public class FileUploadController {
         int exitCode = process.waitFor();
         logger.debug("Command execution completed with exit code: " + exitCode);
 
-//        String cmd = "python3 /home/ubuntu/srtmain/vosk/vosk-api/python/example/test_ffmpeg.py " + dest.toString();
-//        logger.debug(cmd);
-//        Process process = Runtime.getRuntime().exec(cmd);
-//        int exitCode = process.waitFor();
-//        logger.debug("exitcode is {}", exitCode);
-//        logger.debug("\nvosk end\n");
+
+        String vosk_result_path = dest.toString();
+        vosk_result_path = vosk_result_path.replace(".wav", ".txt");
+        logger.debug("this is vosk result path");
+        logger.debug(vosk_result_path);
+        String vosk_result = "";
+
+        try (Scanner sc = new Scanner(new FileReader(vosk_result_path))) {
+            if (sc.hasNextLine()) {
+                 vosk_result = sc.nextLine();
+                 vosk_result = vosk_result.replace(" ", "");
+                 logger.debug("now is the vosk result that will be return to http");
+                 logger.debug(vosk_result);
+            }
+        }
+
 
         object.put("code",0);
         object.put("info","Success in upload");
+        if(Objects.equals(vosk_result, "")) {
+            object.put("data", "voice so low or so short");
+        }
+        else {
+            object.put("data", vosk_result);
+        }
+
         return object.toString();
     }
 }
