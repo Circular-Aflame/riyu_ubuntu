@@ -11,9 +11,13 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String name;
+    private String username;
 
-    private String email;
+    private String deviceId;
+
+    private String password;
+
+    private String token;
 
     public Integer getId() {
         return id;
@@ -23,19 +27,29 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+    public String getDeviceId() { return deviceId;}
+
+    public void setDeviceId(String deviceId) { this.deviceId = deviceId;}
+
+    public String getToken() { return token;}
+
+    public void setToken(String token) { this.token = token;}
+
+
 }
