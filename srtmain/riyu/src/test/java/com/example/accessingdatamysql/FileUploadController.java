@@ -18,29 +18,4 @@ public class FileUploadController {
     @Autowired
     private UserRepository userRepository;
 
-    @Value("${file.upload.url}")
-    private String uploadFilePath;
-
-    @PostMapping(path="/demo/upload") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser (@RequestParam("file") MultipartFile[] files) {
-
-        JSONObject object=new JSONObject();
-        for (MultipartFile file : files) {
-            String fileName = file.getOriginalFilename();  // 文件名
-            File dest = new File(uploadFilePath + '/' + fileName);
-            if (!dest.getParentFile().exists()) {
-                dest.getParentFile().mkdirs();
-            }
-            try {
-                file.transferTo(dest);
-            } catch (Exception e) {
-                object.put("code", 60000);
-                object.put("info", "Bad username");
-                return object.toString();
-            }
-        }
-        object.put("code", 0);
-        object.put("info","Success in upload and get result");
-        return object.toString();
-    }
 }

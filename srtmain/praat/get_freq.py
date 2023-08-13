@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
+import math
 
 sns.set() # Use seaborn's default style to make attractive graphs
 
@@ -24,6 +25,14 @@ def draw_pitch(pitch):
 
     dic["time"] = pitch.xs().tolist()
     dic["freq"] = pitch_values.tolist()
+
+    for i in range(len(dic["freq"])):
+        if math.isnan(dic["freq"][i]):
+            dic["freq"][i] = -1
+        dic["freq"][i] = "{:.2f}".format(dic["freq"][i])
+    
+    for i in range(len(dic["time"])):
+        dic["time"][i] = "{:.2f}".format(dic["time"][i])
     # print(pitch_values)
     # print(pitch.xs())
     # plt.plot(pitch.xs(), pitch_values, 'o', markersize=5, color='w')
@@ -44,7 +53,10 @@ draw_pitch(pitch)
 # plt.xlim([snd.xmin, snd.xmax])
 # plt.show() # or plt.savefig("spectrogram_0.03.pdf")
 
-with open(sys.argv[1] + ".json","w") as f:
+file_path = sys.argv[1]
+file_path = file_path[:-4]
+
+with open(file_path + ".json","w") as f:
 # with open("test" + ".json","w") as f:
     json.dump(dic, f)
 # print(dic)

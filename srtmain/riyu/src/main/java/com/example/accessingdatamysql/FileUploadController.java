@@ -2,6 +2,7 @@ package com.example.accessingdatamysql;
 
 import java.io.*;
 
+import com.example.accessingdatamysql.tool.MyResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,10 @@ public class FileUploadController {
         String uploadFilePath = "";
 
         User user = userRepository.findByToken(token);
+
+        if(user == null)
+            return MyResponse.response_success("Bad token", 60000).toString();
+
         uploadFilePath = uploadFileRootPath + "/" + user.getDeviceId() + cachePath;
 
         for (MultipartFile file : files) {
@@ -55,7 +60,7 @@ public class FileUploadController {
             logger.debug("upload file dest: {}", dest);
 
             assert fileName != null;
-            if(!fileName.toLowerCase().endsWith(".wav")) {
+            if(!(fileName.toLowerCase().endsWith(".wav") || fileName.toLowerCase().endsWith(".m4a") )) {
                 object.put("code", 60000);
                 object.put("info", "Bad file extension");
                 return object.toString();
@@ -100,6 +105,7 @@ public class FileUploadController {
 
         String vosk_result_path = dest.toString();
         vosk_result_path = vosk_result_path.replace(".wav", ".txt");
+        vosk_result_path = vosk_result_path.replace(".m4a", ".txt");
         logger.debug("this is vosk result path");
         logger.debug(vosk_result_path);
         String vosk_result = "";

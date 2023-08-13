@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql.tool;
+package com.example.accessingdatamysql;
 
 import com.example.accessingdatamysql.User;
 import com.example.accessingdatamysql.UserRepository;
@@ -18,12 +18,13 @@ public class UserUtils {
     @Value("${file.consistent.save.url}")
     private static String consistentPath;
 
+
     @Autowired
     public UserUtils(UserRepository userRepository) {
-        UserUtils.userRepository = userRepository;
+        this.userRepository = userRepository;
     }
 
-    public static String getUserFolderCachePathByToken(String token) {
+    public static String getUserFolderCachePathByToken(String token, UserRepository userRepository) {
         User user = userRepository.findByToken(token);
         if (user != null) {
             // 根据用户信息计算文件夹路径
@@ -32,7 +33,7 @@ public class UserUtils {
         return null; // 如果找不到对应的用户，则返回null
     }
 
-    public static String getUserFolderRootPathByToken(String token) {
+    public static String getUserFolderRootPathByToken(String token, UserRepository userRepository) {
         User user = userRepository.findByToken(token);
         if (user != null) {
             // 根据用户信息计算文件夹路径
@@ -41,7 +42,7 @@ public class UserUtils {
         return null; // 如果找不到对应的用户，则返回null
     }
     
-    public static String getUserFolderConsistPathByToken(String token) {
+    public static String getUserFolderConsistPathByToken(String token, UserRepository userRepository) {
         User user = userRepository.findByToken(token);
         if (user != null) {
             // 根据用户信息计算文件夹路径

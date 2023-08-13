@@ -75,7 +75,7 @@ with open(store_path + "phones.json",'r') as d:
 num=0
 total=0
 for phone in input:
-    if (phone[2] not in dic["vowels"]) and (phone[2] not in dic["lengths"]) and (phone[2] not in dic["longcon"]):
+    if phone[2] in dic["cuyin"]:
         num+=1
         total+=(phone[1]-phone[0])
 mean=round(total/num,2)
@@ -182,10 +182,10 @@ output={
     "ends":end_time
     }
 
-outf=open("output.json",'w')
+outf=open(path + "/" + "output.json",'w')
 outf.write(json.dumps(output,indent=1))
 print(output)
 outf.close()
 
-os.system("rm -rf /home/ubuntu/test/cache")
-os.system("mkdir /home/ubuntu/test/cache")
+# os.system("rm -rf /home/ubuntu/test/cache")
+# os.system("mkdir /home/ubuntu/test/cache")
