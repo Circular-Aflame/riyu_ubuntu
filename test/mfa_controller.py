@@ -78,7 +78,10 @@ for phone in input:
     if phone[2] in dic["cuyin"]:
         num+=1
         total+=(phone[1]-phone[0])
-mean=round(total/num,2)
+mean = 0
+if num != 0:
+    mean=round(total/num,2)
+
 print(mean)
 
 kana=[]

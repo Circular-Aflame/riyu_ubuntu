@@ -50,11 +50,12 @@ public class CalculateController {
         logger.debug("token is {}", token);
         logger.debug("filename is {}", filename);
 
+
         User user = userRepository.findByToken(token);
 
         if(user == null)
             return MyResponse.response_success("Bad token", 60000).toString();
-        
+
         String userCachePath = uploadFileRootPath + "/" + user.getDeviceId() + cachePath;
         String userConsistPath = uploadFileRootPath + "/" + user.getDeviceId() + consistentPath;
 
@@ -230,5 +231,8 @@ public class CalculateController {
 
         // 将 JSON 对象转换为字符串
         return json.toString();
+//        JSONObject json = MyResponse.response_success("test no cal", 0);
+//        json.put("data", "no data");
+//        return json.toString();
     }
 }
