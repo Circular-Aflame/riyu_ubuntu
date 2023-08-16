@@ -33,6 +33,15 @@ def draw_pitch(pitch):
     
     for i in range(len(dic["time"])):
         dic["time"][i] = "{:.2f}".format(dic["time"][i])
+
+    for i in range(len(dic["freq"])):
+        if float(dic["freq"][i]) >= 0:
+            dic["startTime"] = dic["time"][i]
+            break
+    for i in range(len(dic["freq"]) - 1, -1, -1):
+        if float(dic["freq"][i]) >= 0:
+            dic["endTime"] = dic["time"][i]
+            break
     # print(pitch_values)
     # print(pitch.xs())
     # plt.plot(pitch.xs(), pitch_values, 'o', markersize=5, color='w')

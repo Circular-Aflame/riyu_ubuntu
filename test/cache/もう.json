@@ -1,0 +1,31 @@
+{
+    "start": 0,
+    "end": 2.94,
+    "tiers": {
+        "words": {
+            "type": "interval",
+            "entries": [
+                [
+                    2.85,
+                    2.94,
+                    "もう"
+                ]
+            ]
+        },
+        "phones": {
+            "type": "interval",
+            "entries": [
+                [
+                    2.85,
+                    2.88,
+                    "m"
+                ],
+                [
+                    2.88,
+                    2.94,
+                    "oː"
+                ]
+            ]
+        }
+    }
+}

@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
@@ -176,6 +177,18 @@ public class CalculateController {
 
         double[] meanArray = new double[hiraArray.length];
 
+        int valid_time = timeArray.length - 1;
+        for(; freqArray[valid_time] == -1; valid_time--);
+
+        if(valid_time + 10 > timeArray.length - 1)
+            valid_time = timeArray.length - 1;
+        else
+            valid_time += 10;
+
+
+
+
+
         int meanId = 0;
         double nowSum = 0;
         double nowSumNum = 0;
@@ -196,6 +209,9 @@ public class CalculateController {
 
         if(meanId < hiraArray.length)
             meanArray[meanId] = Math.round(nowSum / nowSumNum * 100.0) / 100.0;
+
+        timeArray = Arrays.copyOfRange(timeArray, 0, valid_time - 1);
+        freqArray = Arrays.copyOfRange(freqArray, 0, valid_time - 1);
 
         JSONObject json = new JSONObject();
         json.put("code", 0);
@@ -229,6 +245,8 @@ public class CalculateController {
 
         json.put("data", data);
 
+        logger.debug("cal end");
+        logger.debug(json.toString());
         // 将 JSON 对象转换为字符串
         return json.toString();
 //        JSONObject json = MyResponse.response_success("test no cal", 0);

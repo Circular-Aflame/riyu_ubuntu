@@ -81,8 +81,22 @@ for phone in input:
 mean = 0
 if num != 0:
     mean=round(total/num,2)
-
+if mean > 0.1:
+    mean = 0.1
 print(mean)
+
+num=0
+total=0
+for phone in input:
+    if (phone[2] not in dic["vowels"]) and (phone[2] not in dic["lengths"]) and (phone[2] not in dic["hatsuon"]):
+        num+=1
+        total+=(phone[1]-phone[0])
+meann = 0
+if num != 0:
+    meann=round(total/num,2)
+else:
+    meann=0.50
+print(meann)
 
 kana=[]
 temp=[]
@@ -112,7 +126,7 @@ for phone in input:
         else:
             if phone[2] in dic["hatsuon"]:
                 time=phone[1]-phone[0]
-                if time > mean*1.5:
+                if time > meann*1.5:
                     temp.append(phone[0])
                     temp.append(phone[1])
                     temp.append(1)
