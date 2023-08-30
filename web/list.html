@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word List</title>
+    <link rel="stylesheet" href="stylelist.css">
+</head>
+
+<body>
+    <h1>Word List</h1>
+    <ul id="wordList">
+        <!-- JavaScript will populate the list here -->
+    </ul>
+
+    <script>
+        // Read and parse book.json file
+        fetch('book.json')
+            .then(response => response.json())
+            .then(wordData => {
+                const wordList = document.getElementById('wordList');
+
+                function createList(data, parentElement) {
+                    for (const bookName in data) {
+                        const bookListItem = document.createElement('li');
+                        bookListItem.textContent = bookName;
+
+                        const bookSubList = document.createElement('ul');
+                        createBookSubList(data[bookName], bookSubList);
+
+                        bookListItem.appendChild(bookSubList);
+                        parentElement.appendChild(bookListItem);
+                    }
+                }
+
+                function createBookSubList(subData, parentElement) {
+                    for (const chapterName in subData) {
+                        const chapterListItem = document.createElement('li');
+                        chapterListItem.textContent = chapterName;
+
+                        const chapterSubList = document.createElement('ul');
+                        createSubList(subData[chapterName], chapterSubList);
+
+                        chapterListItem.appendChild(chapterSubList);
+                        parentElement.appendChild(chapterListItem);
+                    }
+                }
+
+                function createSubList(subData, parentElement) {
+                    for (const wordEntry of subData) {
+                        const listItem = document.createElement('li');
+                        const anchor = document.createElement('a');
+                        anchor.textContent = wordEntry.word + "(" + wordEntry.kana + ")" + "\t" + wordEntry.tone;
+                        const n = getNum(wordEntry.kana);
+                        let acs = "";
+                        const type = wordEntry.tone;
+                        if (type == 0) {
+                            acs += "0";
+                            for (let i = 1; i < n; i++) {
+                                acs += "1";
+                            }
+                        } else if (type == 1) {
+                            acs += "1";
+                            for (let i = 1; i < n; i++) {
+                                acs += "0";
+                            }
+                        } else {
+                            acs += "0";
+                            for (let i = 1; i < type; i++) {
+                                acs += "1";
+                            }
+                            for (let i = type; i < n; i++) {
+                                acs += "0";
+                            }
+                        }
+                        anchor.href = `kana.html?text=${encodeURIComponent(wordEntry.word)}&accent=${encodeURIComponent(acs)}&hira=${encodeURIComponent(wordEntry.kana)}`;
+                        listItem.appendChild(anchor);
+                        parentElement.appendChild(listItem);
+                    }
+                }
+
+                function getNum(hiragana) {
+                    const small = [
+                        "ぁ", "ァ", "ぃ", "ィ", "ぅ", "ゥ", "ぇ", "ェ", "ぉ", "ォ",
+                        "ㇱ", "ㇲ", "ㇳ", "ㇵ", "ㇶ", "ㇷ", "ㇷ゚", "ㇸ", "ㇹ", "ㇺ", "ㇻ", "ㇼ", "ㇽ", "ㇾ", "ㇿ", "ㇰ", "ㇴ",
+                        "ゃ", "ャ", "ゅ", "ュ", "ょ", "ョ",
+                        "ゎ", "ヮ"
+                    ];
+
+                    let count = 0;
+
+                    for (let i = 0; i < hiragana.length; i++) {
+                        const character = hiragana[i];
+                        if (!small.includes(character)) {
+                            count++;
+                        }
+                    }
+
+                    return count;
+                }
+
+                createList(wordData.books, wordList);
+            })
+            .catch(error => {
+                console.error('Error reading book.json:', error);
+            });
+    </script>
+
+</body>
+
+</html>

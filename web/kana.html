@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Please</title>
+    <link rel="stylesheet" href="stylekana.css">
+</head>
+
+<body>
+    <h1>Record and Process</h1>
+
+    <div id="accentLinesContainer"></div>
+    </div>
+
+
+    <div id="resultContainer">
+        <h2>Accent Array:</h2>
+        <div id="accentResult"></div>
+    </div>
+
+
+    <div>
+        <label for="text">Text:</label>
+        <input type="text" id="text" readonly>
+    </div>
+    <div>
+        <label for="hira">Hira:</label>
+        <input type="text" id="hira" readonly>
+    </div>
+    <div>
+        <label for="accent">Accent:</label>
+        <input type="text" id="accent" readonly>
+    </div>
+
+
+    <button id="recordButton">Start Recording</button>
+    <audio id="audioPlayer" controls></audio>
+
+    <script>
+        const recordButton = document.getElementById('recordButton');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        const textInput = document.getElementById('text');
+        const hiraInput = document.getElementById('hira');
+        const accentInput = document.getElementById('accent');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const textParam = urlParams.get('text') || '御機嫌よう';
+        const hiraParam = urlParams.get('hira') || 'ごきげんよう';
+        const accentParam = urlParams.get('accent') || '011110';
+
+        textInput.value = textParam;//|| '御機嫌よう';
+        hiraInput.value = hiraParam;//|| 'ごきげんよう';
+        accentInput.value = accentParam;//|| '011110';
+
+        let hiras=getHiras(hiraParam);
+        function getHiras(hiragana) {
+            const small = [
+                "ぁ", "ァ", "ぃ", "ィ", "ぅ", "ゥ", "ぇ", "ェ", "ぉ", "ォ",
+                "ㇱ", "ㇲ", "ㇳ", "ㇵ", "ㇶ", "ㇷ", "ㇷ゚", "ㇸ", "ㇹ", "ㇺ", "ㇻ", "ㇼ", "ㇽ", "ㇾ", "ㇿ", "ㇰ", "ㇴ",
+                "ゃ", "ャ", "ゅ", "ュ", "ょ", "ョ",
+                "ゎ", "ヮ"
+            ];
+            let kanas=[];
+            for (let i = 0; i < hiragana.length; i++) {
+                const character = hiragana[i];
+                if (!small.includes(character)) {
+                    kanas.push(character);
+                }
+                else {
+                    kanas[kanas.length-1]+=character;
+                }
+            }
+            return kanas;
+        }
+
+        let accentUp= Array.from(accentParam, Number);
+        for(let i=0;i<hiras.length;i++) {
+            if(hiras[i]=="っ") {
+                accentUp[i]=2;
+            }
+        }
+
+        const accentLinesContainer = document.getElementById('accentLinesContainer');
+
+        drawAccentLines(accentParam);
+        function drawAccentLines(accent) {
+            const linesHTML = Array.from(accent).map((bit, index) => {
+                const lineStyle = `margin-top: ${bit === '0' ? '100px' : '50px'}`;
+                const kana = hiras[index]; // 获取对应的平假名字符
+                return `
+            <div class="accent-pair">
+                <div class="accent-line" style="${lineStyle}"></div>
+                <div class="kana">${kana}</div>
+            </div>
+                `;
+            }).join('');
+
+            accentLinesContainer.innerHTML = linesHTML;
+        }
+
+
+
+        let mediaRecorder;
+        let audioChunks = [];
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                    audioPlayer.src = URL.createObjectURL(audioBlob);
+
+                    // 将录音数据上传到后端
+                    uploadToBackend(audioBlob);
+                };
+
+                mediaRecorder.start();
+                recordButton.textContent = 'Stop Recording';
+            } catch (error) {
+                console.error('Error starting recording:', error);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                recordButton.textContent = 'Start Recording';
+            }
+        }
+
+        async function uploadToBackend(blob) {
+            // 使用 fetch API 将录音数据上传到后端
+            const formData = new FormData();
+            formData.append('token', '9a73cb78fa76211f');
+            formData.append('file', blob,'word.mp3');
+            formData.append('accent', JSON.stringify(accentUp)); // 将字符串转换为数组并作为字符串上传
+            
+            const accentResult = document.getElementById('accentResult');
+
+            accentResult.textContent = 'uploading...';
+            // 输出 FormData 的内容
+            console.log('Form data contents:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            try {
+                const response = await fetch('/demo/word', {
+                    method: 'POST',
+                    body: formData
+                });
+
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    // 将结果中的 accent 数组显示在页面上
+                    if (result.accent && Array.isArray(result.accent)) {
+                        accentResult.textContent = `Accent Array: [${result.accent.join(', ')}]`;
+                    } else {
+                        accentResult.textContent = 'No accent data available';
+                    }
+                } else {
+                    console.error('Error in uploading recording:', response);
+                    accentResult.textContent = accentUp;
+                }
+            } catch (error) {
+                console.error('Error in uploading recording:', error);
+                accentResult.textContent = 'Error in uploading recording:';
+            }
+        }
+
+        recordButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        });
+    </script>
+</body>
+
+</html>

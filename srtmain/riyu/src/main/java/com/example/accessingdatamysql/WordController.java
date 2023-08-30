@@ -81,7 +81,7 @@ public class WordController {
             logger.debug("upload file dest: {}", dest);
 
             assert fileName != null;
-            if(!(fileName.toLowerCase().endsWith(".wav") || fileName.toLowerCase().endsWith(".m4a") )) {
+            if(!(fileName.toLowerCase().endsWith(".wav") || fileName.toLowerCase().endsWith(".m4a") || fileName.toLowerCase().endsWith(".mp3") )) {
                 object.put("code", 60000);
                 object.put("info", "Bad file extension");
                 return object.toString();
@@ -101,6 +101,7 @@ public class WordController {
         File dest = new File(uploadFilePath + '/' + files[0].getOriginalFilename());
         String dest2wavPath = uploadFilePath + '/' + files[0].getOriginalFilename();
         dest2wavPath = dest2wavPath.replace(".m4a", ".wav");
+        dest2wavPath = dest2wavPath.replace(".mp3", ".wav");
 
 
         String command = "/home/ubuntu/anaconda3/bin/python";

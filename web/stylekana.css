@@ -1,0 +1,47 @@
+/* 默认样式适用于所有设备 */
+.accent-line {
+    width: 50px;
+    height: 10px;
+    background-color: black;
+    margin: 5px auto;
+}
+
+.kana {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.accent-pair {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    /* 调整线段和假名之间的间距 */
+}
+
+/* 移动端样式 */
+@media (max-width: 768px) {
+    .accent-line {
+        width: 30px;
+        height: 6px;
+        margin: 3px auto;
+    }
+
+    .kana {
+        font-size: 14px;
+        margin-top: 3px;
+    }
+}
+
+/* PC端样式 */
+@media (min-width: 769px) {
+    .accent-line {
+        width: 50px;
+        height: 10px;
+        margin: 5px auto;
+    }
+
+    .kana {
+        font-size: 18px;
+        margin-top: 5px;
+    }
+}
