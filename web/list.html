@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word List</title>
+    <title>单词列表</title>
     <link rel="stylesheet" href="stylelist.css">
 </head>
 
 <body>
-    <h1>Word List</h1>
+    <h1>单词列表</h1>
     <ul id="wordList">
         <!-- JavaScript will populate the list here -->
     </ul>
@@ -51,7 +51,7 @@
                     for (const wordEntry of subData) {
                         const listItem = document.createElement('li');
                         const anchor = document.createElement('a');
-                        anchor.textContent = wordEntry.word + "(" + wordEntry.kana + ")" + "\t" + wordEntry.tone;
+                        anchor.textContent = wordEntry.word + "\t(" + wordEntry.kana + ")" + "\t\t\t" + wordEntry.tone;
                         const n = getNum(wordEntry.kana);
                         let acs = "";
                         const type = wordEntry.tone;

@@ -2,22 +2,22 @@
 a {
     text-decoration: none;
     /* 去除下划线 */
-    color: #333;
-    /* 文字颜色 */
+    color: #8A2BE2;
+    /* 使用清华紫色 */
     transition: color 0.3s;
     /* 添加过渡效果 */
 }
 
 /* 鼠标悬停时的样式 */
 a:hover {
-    color: #FF5733;
-    /* 鼠标悬停时的文字颜色 */
+    color: hwb(244 20% 20%);
+    /* 使用深紫色作为鼠标悬停颜色 */
 }
 
 /* 点击后的样式 */
 a:active {
-    color: hsl(120, 78%, 56%);
-    /* 点击后的文字颜色 */
+    color: hsl(108, 60%, 65%);
+    /* 使用中紫色作为点击后的颜色 */
 }
 
 /* 基本样式，适用于所有屏幕宽度 */
@@ -27,36 +27,37 @@ ul {
 }
 
 ul ul {
-    margin-left: 20px;
+    margin-left: 15px;
 }
 
+/* 一级列表项样式 */
 ul li {
     margin-bottom: 5px;
     cursor: pointer;
-    /* 添加自定义项目标记样式 */
     position: relative;
-    /* 让子列表的位置相对于父项 */
-    padding-left: 20px;
-    /* 调整标记的左侧缩进 */
+    padding-left: 15px;
+    font-weight: bold;
+    /* 加粗字体，突出一级列表项 */
 }
 
+/* 二级列表项样式 */
 ul ul li {
     margin-bottom: 0;
-    /* 去除子列表项的下间距 */
+    font-weight: normal;
+    /* 恢复正常字体，二级列表项不加粗 */
 }
+
 
 /* 在小屏幕上的样式 */
 @media (max-width: 768px) {
     ul ul {
-        margin-left: 10px;
-        /* 减小子列表的缩进 */
+        margin-left: 5px;
     }
 }
 
 /* 在大屏幕上的样式 */
 @media (min-width: 769px) {
     ul ul {
-        margin-left: 30px;
-        /* 增加子列表的缩进 */
+        margin-left: 20px;
     }
 }

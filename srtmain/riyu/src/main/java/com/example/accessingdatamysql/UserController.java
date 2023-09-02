@@ -8,11 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 
@@ -34,6 +30,7 @@ public class UserController {
     private String consistentPath;
 
     // 处理用户登录，因为每次都可以改变昵称
+    @CrossOrigin(origins = "*")
     @PostMapping(path="/add") // Map ONLY POST Requests
     public @ResponseBody String addNewUser (
             @RequestParam String deviceId, @RequestParam String timestamp, @RequestParam String username) throws JSONException {
@@ -83,12 +80,14 @@ public class UserController {
         return object.toString();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path="/lastname")
     public @ResponseBody String getUserLastname(@RequestParam String deviceId) throws JSONException {
         // This returns a JSON or XML with the users

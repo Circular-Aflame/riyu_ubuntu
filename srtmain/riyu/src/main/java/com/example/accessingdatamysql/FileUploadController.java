@@ -8,10 +8,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -37,6 +34,7 @@ public class FileUploadController {
     @Value("${file.consistent.save.url}")
     private String consistentPath;
 
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/upload")
     public @ResponseBody String httpUpload(@RequestParam String token,
                                            @RequestParam("file") MultipartFile[] files) throws JSONException, IOException, InterruptedException {

@@ -54,22 +54,22 @@ app.get('/', (req, res) => {
 // 配置代理
 const proxy = httpProxy.createProxyServer({});
 
-app.post('/demo/word', upload.single('file'), (req, res) => {
-    console.log('Received request with FormData:', req.body); // 输出整个 FormData
-    console.log('Received uploaded file:', req.file); // 输出上传的文件信息
+// app.post('/demo/word', upload.single('file'), (req, res) => {
+//     console.log('Received request with FormData:', req.body); // 输出整个 FormData
+//     console.log('Received uploaded file:', req.file); // 输出上传的文件信息
 
-    // 转发请求到HTTP服务器
-    proxy.web(req, res, {
-        target: 'http://49.233.22.132:8080', // 你的HTTP服务器地址
-        // changeOrigin: true,
-        // secure: false // 因为是自签名证书，需要设置为 false
-    });
+//     // 转发请求到HTTP服务器
+//     proxy.web(req, res, {
+//         target: 'http://49.233.22.132:8080', // 你的HTTP服务器地址
+//         // changeOrigin: true,
+//         // secure: false // 因为是自签名证书，需要设置为 false
+//     });
 
-    // 监听代理的 `proxyRes` 事件，输出代理响应状态码
-    proxy.on('proxyRes', (proxyRes, req, res) => {
-        console.log('Received proxy response:', proxyRes.statusCode);
-    });
-});
+//     // 监听代理的 `proxyRes` 事件，输出代理响应状态码
+//     proxy.on('proxyRes', (proxyRes, req, res) => {
+//         console.log('Received proxy response:', proxyRes.statusCode);
+//     });
+// });
 
 // 新增对应的路由，用于处理 kana.html 页面的 GET 请求
 app.get('/kana.html', (req, res) => {
